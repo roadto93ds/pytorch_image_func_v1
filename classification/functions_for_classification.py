@@ -30,7 +30,7 @@ from torch.utils.data import Dataset, DataLoader
 import torchvision
 from torchvision import models, transforms
 
-!pip install torchinfo | tail -n 1
+# !pip install torchinfo | tail -n 1
 from torchinfo import summary
 
 import warnings
