@@ -10,8 +10,7 @@ from PIL import Image
 from tqdm.notebook import tqdm
 import matplotlib.pyplot as plt
 import seaborn as sns
-sns.set()
-# %matplotlib inline
+%matplotlib inline
 
 import torch
 import torch.nn as nn
@@ -20,11 +19,15 @@ from torch.utils.data import Dataset, DataLoader
 import torchvision
 from torchvision import models, transforms
 
-# !pip install torchinfo | tail -n 1
+!pip install torchinfo | tail -n 1
 from torchinfo import summary
 
 import warnings
 warnings.filterwarnings('ignore')
+
+
+
+
 
 # 乱数の固定化
 def torch_seed(seed=123):
@@ -77,6 +80,12 @@ def get_mean_std(resize, path_list):
   # print("std: ", imgs_std)
 
   return imgs_mean, imgs_std
+
+def tensor_to_image(image_t):
+  image = image_t.cpu().detach().numpy().transpose((1,2,0)) # CHW -> HWC
+  image = np.clip(image, 0, 1) # 0~1clip
+  plt.imshow(image)
+  plt.show()
 
 def dataset_to_imgs(dataset, rows=3, columns=5, scale=3, order=True):
   """
