@@ -1,16 +1,18 @@
-# make_pathlist
 def make_pathlist(filepath, RGB_check = True):
   """
 	sample
-  rootpath = "/content/drive/MyDrive/0.PyTorch_GANs入門/data/horse2zebra/"
-  filepath = os.path.join(rootpath + "trainA/*.jpg")
+  rootpath = "/content/drive/MyDrive/0.0_pytorch_baseline/pokemon/train/"
+  filepath = os.path.join(train_rootpath + "**/*.jpg")
+  ** ：class_n folder (n=1~K)
 	make_pathlist(filepath)
+
+  RGB_check：eliminate_not3d image（default）
   """
-  # RGB次元かをチェックして、RGB次元の画像のみ格納（デフォルト）
-  if RGB_check == True:
+  # check RGB
+  if RGB_check:
     path_list = [ path for path in glob.glob(filepath) if Image.open(path).mode == "RGB"]
     
-  # RGBの確認しないで格納（モノクロも混ざる可能性あり）
+  # check RGB = False
   else:
     path_list = [ path for path in glob.glob(filepath)]
 
