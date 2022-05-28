@@ -168,42 +168,45 @@ def detail_dataloader(dataset, dataloader):
   print("images shape: ", images.shape)
   print("labels shape: ", labels.shape)
 
-def dataloader_to_imgs(dataloader, net=None, device=None):
+def dataloader_to_imgs(dataloader, net=None, device=None, has_label = True):
   """
   display dataloader_imags(max:50）
   net：classification_model
   """
   data_iter = iter(dataloader)
-  images, labels = next(data_iter)
+  if has_label == True:
+    images, labels = next(data_iter)
+  
+  elif has_label == False:
+    images = next(data_iter)
 
   n_size = min(len(images), 50) # n_size: len(images) or 50
 
   # has classification_model
-  if net is not None:
-    inputs = images.to(device)
-    labels = labels.to(device)
+  # if net is not None:
+  #   inputs = images.to(device)
+  #   labels = labels.to(device)
 
-    # predict
-    outputs = net(inputs)
-    predicted = torch.max(outputs, 1)[1]
+  #   # predict
+  #   outputs = net(inputs)
+  #   predicted = torch.max(outputs, 1)[1]
 
-    images = images.to("cpu")
-    labels = labels.to("cpu")
-    predicted = predicted.to("cpu")
+  #   images = images.to("cpu")
+  #   labels = labels.to("cpu")
+  #   predicted = predicted.to("cpu")
 
   plt.figure(figsize=(20,15))
   for i in range(n_size):
     ax = plt.subplot(5,10, i+1)
-    if net is not None:
-      if labels[i].item() == predicted[i].item():
-        c = "k"
-      else:
-        c="b"
-      ax.set_title(str(labels[i].item()) + "/" + str(predicted[i].item()) , c=c, fontsize=20)
-      # ax.set_title(str(labels[i].item()) + "/" , c=c, fontsize=20)
+    # if net is not None:
+    #   if labels[i].item() == predicted[i].item():
+    #     c = "k"
+    #   else:
+    #     c="b"
+    #   ax.set_title(str(labels[i].item()) + "/" + str(predicted[i].item()) , c=c, fontsize=20)
 
-    else:
-      ax.set_title(labels[i].item(), fontsize=20) # .item -> delete tensor
+    # else:
+      # ax.set_title(labels[i].item(), fontsize=20) # .item -> delete tensor
     image_np = images[i].numpy().copy()
     img = np.transpose(image_np, (1,2,0))
     img = np.clip(img, 0,1)
@@ -247,6 +250,32 @@ def net_test(net, dataset):
   img = img.unsqueeze(0)
   print("result: ", net(img), net(img).shape)
 
+def Generator_test(netG, batch_size, z_dim):
+  """
+  given: noize = (batch_size, z_dim, 1 ,1) -> netG
+  display: out[0]
+  """
+  sample_input = torch.randn(batch_size, z_dim, 1, 1) # 10個のz_dim次元ベクトル
+  print("input_z: ", sample_input.shape) # 生成したノイズ(B,C,H,W)
+  print("********** debug_forward **********")
+  netG.debug_forward(sample_input) # .debug_forward 定義してるなら走る
+  out = netG(sample_input)
+  print("output: ", out.shape) # 出力
+  tensor_to_img(out[0]) # 画像表示
+
+def Discriminator_test(netD, dataloader):
+  """
+  input: dataloader
+  output: 
+  """
+  data_iter = iter(dataloader)
+  imgs = next(data_iter)
+  print("input_imgs: ", imgs.shape) # dataloaderからの画像を入れる
+  print("********** debug_forward **********")
+  netD.debug_forward(imgs) # .debug_forward 定義してるなら走る
+  out = netD(imgs)
+  print("output: ", out.shape) # 出力
+
 def show_net_status(net, dataloader):
   """
   summary input：dataloader's B,C,H,W
@@ -262,6 +291,39 @@ def show_net_status(net, dataloader):
     break
   print("********** model summary **********")
   print(summary(net, (B, C, H, W), device="cpu"))
+
+def show_Generator_status(netG, batch_size, z_dim):
+  """
+  show netG status
+  given: noize = (batch_size, z_dim, 1 ,1)
+  """
+  print("netG")
+  print(netG)
+  print("******************************************************")
+  numel_list = [p.numel() for p in netG.parameters()]
+  print("total_params: ", sum(numel_list))
+  print("list_params: ", numel_list)
+  sample_input = torch.randn(batch_size, z_dim, 1, 1)
+  B , C, H, W = sample_input.shape
+  print("********** Generator summary **********")
+  print(summary(netG, (B,C,H,W), device="cpu"))
+
+def show_Discriminator_status(netD, dataloader):
+  """
+  show netD status
+  summary input：dataloader's B,C,H,W
+  """
+  print("netD")
+  print(netD)
+  print("******************************************************")
+  numel_list = [p.numel() for p in netD.parameters()]
+  print("total_params: ", sum(numel_list))
+  print("list_params: ", numel_list)
+  data_iter = iter(dataloader)
+  imgs = next(data_iter)
+  B , C, H, W = imgs.shape
+  print("********** Generator summary **********")
+  print(summary(netD, (B,C,H,W), device="cpu"))
 
 # 重みとバイアスの初期化（完全ランダムよりこっちの方が良い？？）
 def weights_init(m):
