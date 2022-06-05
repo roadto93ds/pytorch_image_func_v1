@@ -64,7 +64,6 @@ def get_mean_std(resize, path_list):
   """
   resize：int
   path_list：only train -> train_path_list / all -> train_path_list+valid_path_list
-
   return：mean, std
   """
 
@@ -166,6 +165,7 @@ def dataloader_to_imgs(dataloader, net=None, device=None):
   """
   display dataloader_imags(max:50）
   net：classification_model
+  title：true_label / predict
   """
   data_iter = iter(dataloader)
   images, labels = next(data_iter)
