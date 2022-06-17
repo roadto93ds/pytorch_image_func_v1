@@ -73,14 +73,10 @@ def get_mean_std(resize, path_list):
                   transforms.Resize(resize)
                   ])
 
-  imgs = torch.stack([transform(Image.open(path_list)) for path_list in path_list], dim=3)
+  imgs = torch.stack([transform(Image.open(path_list).convert('RGB')) for path_list in path_list], dim=3)
 
   imgs_mean = imgs.view(3,-1).mean(dim=1)
   imgs_std = imgs.view(3,-1).std(dim=1)
-  
-  # print("stock: ", imgs.shape)
-  # print("mean: ",imgs_mean)
-  # print("std: ", imgs_std)
 
   return imgs_mean, imgs_std
 
