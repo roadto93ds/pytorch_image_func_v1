@@ -46,7 +46,7 @@ def filelist_to_imgs(file_list, rows=3, columns=5, scale=3, order=True):
   plt.figure(figsize=(scale*columns, scale*rows))
   if order == True:
     for i, img_path in enumerate(file_list[0:rows*columns]):
-      img = Image.open(img_path)
+      img = Image.open(img_path).convert('RGB')
       ax = plt.subplot(rows, columns, i+1)
       plt.imshow(img)
       # plt.axis("off")
@@ -54,7 +54,7 @@ def filelist_to_imgs(file_list, rows=3, columns=5, scale=3, order=True):
 
   if order == False:
     for i, img_path in enumerate(random.sample(file_list, rows*columns)):
-      img = Image.open(img_path)
+      img = Image.open(img_path).convert('RGB')
       ax = plt.subplot(rows, columns, i+1)
       plt.imshow(img)
       # plt.axis("off")
