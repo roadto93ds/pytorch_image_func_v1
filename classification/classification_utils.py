@@ -23,6 +23,9 @@ from torchvision import models, transforms
 # %pip install torchinfo | tail -n 1
 from torchinfo import summary
 
+# %pip install timm
+import timm
+
 import warnings
 warnings.filterwarnings('ignore')
 
