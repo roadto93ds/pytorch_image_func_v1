@@ -270,12 +270,11 @@ def weights_init(m):
     elif classname.find("BatchNorm") != -1:
         nn.init.normal_(m.weight.data, 1.0, 0.02)
         nn.init.constant_(m.bias.data, 0)
-
 def visualize_process(train_loss_log, valid_loss_log, train_acc_log, valid_acc_log):
     """
     4params = def training 's return
     """
-    plt.figure(figsize=(15,5))
+    fig = plt.figure(figsize=(15,5))
     ax = plt.subplot(1, 2, 1)
     plt.plot(train_loss_log, label="train")
     plt.plot(valid_loss_log, label="valid")
@@ -293,3 +292,4 @@ def visualize_process(train_loss_log, valid_loss_log, train_acc_log, valid_acc_l
     plt.legend()
 
     plt.show()
+    return fig
