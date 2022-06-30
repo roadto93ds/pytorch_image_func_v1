@@ -294,3 +294,34 @@ def visualize_process(train_loss_log, valid_loss_log, train_acc_log, valid_acc_l
 
     plt.show()
     return fig
+
+def load_model():
+    if CFG.setting["model_library"] == "torchvision":
+    # torchvision
+        net = eval(f'models.{CFG.setting["MODEL_NAME"]}')(pretrained=CFG.setting["pretrained"])
+        
+        # resnet
+        if "resne" in CFG.setting["MODEL_NAME"]:
+            fc_in_features = net.fc.in_features
+            net.fc = nn.Linear(fc_in_features, CFG.n_class)
+        # vgg
+        if "vgg" in CFG.setting["MODEL_NAME"]:
+            fc_in_features = net.classifier[6].in_features
+            net.classifier[6] = nn.Linear(fc_in_features, CFG.n_class)
+        # efficient
+        if "efficientnet_" in CFG.setting["MODEL_NAME"]:
+            fc_in_features = net.classifier[1].in_features
+            net.classifier[1] = nn.Linear(fc_in_features, CFG.n_class)
+        # vit
+        if "vit_" in CFG.setting["MODEL_NAME"]:
+            fc_in_features = net.heads.head.in_features
+            net.heads.head = nn.Linear(fc_in_features, CFG.n_class)
+
+        if "convnext_" in CFG.setting["MODEL_NAME"]:
+            fc_in_features = net.classifier[2].in_features
+            net.classifier[2] = nn.Linear(fc_in_features, CFG.n_class)
+
+    elif CFG.model_library == "timm":
+        net = timm.create_model(CFG.MODEL_NAME, pretrained = CFG.pretrained, num_classes = CFG.n_class)
+
+    return net
