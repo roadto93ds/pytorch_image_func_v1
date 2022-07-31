@@ -317,11 +317,8 @@ def load_model():
             fc_in_features = net.heads.head.in_features
             net.heads.head = nn.Linear(fc_in_features, CFG.n_class)
 
-        if "convnext_" in CFG.setting["MODEL_NAME"]:
-            fc_in_features = net.classifier[2].in_features
-            net.classifier[2] = nn.Linear(fc_in_features, CFG.n_class)
 
-    elif CFG.model_library == "timm":
-        net = timm.create_model(CFG.MODEL_NAME, pretrained = CFG.pretrained, num_classes = CFG.n_class)
+    elif CFG.setting["model_library"] == "timm":
+        net = timm.create_model(CFG.setting["MODEL_NAME"], pretrained = CFG.setting["pretrained"], num_classes = CFG.n_class)
 
     return net
