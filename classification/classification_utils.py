@@ -299,7 +299,6 @@ def load_model():
     if CFG.setting["model_library"] == "torchvision":
     # torchvision
         net = eval(f'models.{CFG.setting["MODEL_NAME"]}')(pretrained=CFG.setting["pretrained"])
-        
         # resnet
         if "resne" in CFG.setting["MODEL_NAME"]:
             fc_in_features = net.fc.in_features
@@ -316,7 +315,10 @@ def load_model():
         if "vit_" in CFG.setting["MODEL_NAME"]:
             fc_in_features = net.heads.head.in_features
             net.heads.head = nn.Linear(fc_in_features, CFG.n_class)
-
+        # convnext
+        if "convnext_" in CFG.setting["MODEL_NAME"]:
+            fc_in_features = net.classifier[2].in_features
+            net.classifier[2] = nn.Linear(fc_in_features, CFG.n_class)
 
     elif CFG.setting["model_library"] == "timm":
         net = timm.create_model(CFG.setting["MODEL_NAME"], pretrained = CFG.setting["pretrained"], num_classes = CFG.n_class)
