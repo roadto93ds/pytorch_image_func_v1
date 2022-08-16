@@ -14,3 +14,17 @@ def make_pathlist(filepath, RGB_check = True):
     else:
         path_list = [ path for path in glob.glob(filepath)]
     return path_list
+
+
+def make_pathlist(rootpath, get_ext):
+    """
+    rootpath = "/root/workspace/0.for_zemi/data/PokemonData"
+    get_ext = [".jpeg", ".jpg", ".png"]
+    """
+    path_list = list()
+    for ext in get_ext:
+        filepath = os.path.join(rootpath, f"**/*{ext}")
+        # path_listにする際に、 .mode == "RGB" で3次元構造になっていないものを弾く
+        path_list += [path for path in glob.glob(filepath) if Image.open(path).mode == "RGB"]
+
+    return  path_list
