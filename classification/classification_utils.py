@@ -260,7 +260,8 @@ def show_net_status(net, dataloader):
 def weights_init(m):
     """
     m：model
-    Conv / BatchNorm weights initialization（based normal distribution） 
+    Conv / BatchNorm weights initialization（based normal distribution）
+    example : m.apply(weights_init)
     """
     classname = m.__class__.__name__
     # findは Conv という文字列が あれば何文字目か / なければ -1 を返す ので if は Conv がある場合を指定している
