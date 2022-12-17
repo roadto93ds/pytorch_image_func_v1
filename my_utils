@@ -1,0 +1,17 @@
+def check_ext(data_dir):
+    """
+    data_dirの直下のフォルダのみ（.txt などのファイルは除外される）を参照して
+    フォルダ内の拡張子のunique数を返す
+    """
+    for folder_name in os.listdir(data_dir):
+        folder_path = os.path.join(data_dir, folder_name)
+        # print(os.path.isdir(folder_path))
+        if os.path.isdir(folder_path):
+            ls_list = os.listdir(folder_path)
+            ext_list = [ os.path.splitext(ls_)[1] for ls_ in ls_list ]
+            count_result = collections.Counter(ext_list)
+            print(f"***** {folder_name} *****")
+            print(count_result)
+        else:
+            print(f"***** {folder_name} *****")
+            print("is_not_folder")
