@@ -163,26 +163,19 @@ def detail_dataloader(dataset, dataloader):
 def dataloader_to_imgs(dataloader, net=None, device=None):
     """
     display dataloader_imags(max:50）
-    net：classification_model
-    title：true_label / predict
+    net:classification_model
+    title:true_label / predict
     """
-    data_iter = iter(dataloader)
-    images, labels = next(data_iter)
-
+    images, labels = next(iter(dataloader))
     n_size = min(len(images), 50) # n_size: len(images) or 50
 
     # has classification_model
     if net is not None:
-        inputs = images.to(device)
-        labels = labels.to(device)
-
+        inputs, labels = images.to(device), labels.to(device)
         # predict
         outputs = net(inputs)
         predicted = torch.max(outputs, 1)[1]
-
-        images = images.to("cpu")
-        labels = labels.to("cpu")
-        predicted = predicted.to("cpu")
+        images, labels, predicted = images.to("cpu"), labels.to("cpu"), predicted.to("cpu")
 
     plt.figure(figsize=(20,15))
     for i in range(n_size):
@@ -194,16 +187,13 @@ def dataloader_to_imgs(dataloader, net=None, device=None):
                 c="b"
             ax.set_title(str(labels[i].item()) + "/" + str(predicted[i].item()) , c=c, fontsize=20)
             # ax.set_title(str(labels[i].item()) + "/" , c=c, fontsize=20)
-
         else:
             ax.set_title(labels[i].item(), fontsize=20) # .item -> delete tensor
         image_np = images[i].numpy().copy()
         img = np.transpose(image_np, (1,2,0))
         img = np.clip(img, 0,1)
-
         ax.set_axis_off()
         plt.imshow(img)
-
     plt.show()
 
 def transform_test(file_list, index=0 ,transform=None):
