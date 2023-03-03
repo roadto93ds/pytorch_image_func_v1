@@ -11,6 +11,9 @@ dataloader = DataLoader(dataset, batch_size=batch_size, sampler=RandomSampler(da
 dataloader = DataLoader(dataset, batch_size=batch_size, sampler=SequentialSampler(dataset), num_workers=num_workers, pin_memory=True)
 
 ### for classification (imbalanced) / weighted random
+### sampler = get_weighted_sampler(sample_weights, replacement_=True)
+### dataloader = DataLoader(dataset, batch_size=batch_size, sampler=sampler, num_workers=num_workers, pin_memory=True)
+
 def get_sample_weights(dataset):
     """
     sample_weights : assign class weights by dataset
