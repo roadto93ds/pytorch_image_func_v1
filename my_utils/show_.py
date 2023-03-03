@@ -25,7 +25,7 @@ def tensor2image_np(image_t, mean=[0.5, 0.5, 0.5], std=[0.5, 0.5, 0.5]):
     image_np = np.clip(image_np, 0, 1)
     return image_np
 
-### simple classification
+### for img pathlist
 def filelist_to_imgs(file_list, rows=5, columns=10, scale=4, order=True):
     """
     display rows*columns images
@@ -47,7 +47,9 @@ def filelist_to_imgs(file_list, rows=5, columns=10, scale=4, order=True):
             plt.subplot(rows, columns, i+1)
             plt.imshow(img)
         plt.show()
+
         
+### for simple classification
 def dataset_to_imgs(dataset, rows=3, columns=5, scale=3, order=True):
     """
     display rows*columns images
@@ -76,7 +78,8 @@ def dataset_to_imgs(dataset, rows=3, columns=5, scale=3, order=True):
             ax = plt.subplot(rows, columns, i+1)
             plt.imshow(img)
         plt.show()
-        
+
+### for simple classification
 def dataloader_to_imgs(dataloader, net=None, device=None):
     """
     display dataloader_imags(max:50）
