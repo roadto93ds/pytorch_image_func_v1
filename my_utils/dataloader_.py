@@ -1,4 +1,4 @@
-from torch.utils.data import WeightedRandomSampler, DataLoader
+from torch.utils.data import DataLoader, WeightedRandomSampler
 from torch.utils.data.sampler import SubsetRandomSampler, RandomSampler, SequentialSampler
 
 ### base1
