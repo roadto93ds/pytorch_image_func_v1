@@ -10,7 +10,7 @@ dataloader = DataLoader(dataset, batch_size=batch_size, sampler=RandomSampler(da
 ### base2:shuffle=False
 dataloader = DataLoader(dataset, batch_size=batch_size, sampler=SequentialSampler(dataset), num_workers=num_workers, pin_memory=True)
 
-### for classification (imbalanced) / weighted random
+### WeightedRandomSampler ::: for classification (imbalanced)
 ### sampler = get_weighted_sampler(sample_weights, replacement_=True)
 ### dataloader = DataLoader(dataset, batch_size=batch_size, sampler=sampler, num_workers=num_workers, pin_memory=True)
 
