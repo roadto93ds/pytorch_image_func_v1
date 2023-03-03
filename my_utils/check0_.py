@@ -1,3 +1,5 @@
+### pre check
+
 def pathlist_detail(pathlist:list, label_folder=False):
     """
     label_folder = True
