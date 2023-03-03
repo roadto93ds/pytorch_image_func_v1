@@ -1,6 +1,11 @@
-### base
+### base1
 dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=True)
+
+### base2:shuffle=True
+dataloader = DataLoader(dataset, batch_size=batch_size, sampler=RandomSampler(dataset), num_workers=num_workers, pin_memory=True)
+### base2:shuffle=False
+dataloader = DataLoader(dataset, batch_size=batch_size, sampler=SequentialSampler(dataset), num_workers=num_workers, pin_memory=True)
 
 ### for classification (imbalanced) / weighted random
 def get_sample_weights(dataset):
