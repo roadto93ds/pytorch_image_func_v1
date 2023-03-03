@@ -1,3 +1,6 @@
+from torch.utils.data import WeightedRandomSampler, DataLoader
+from torch.utils.data.sampler import SubsetRandomSampler, RandomSampler, SequentialSampler
+
 ### base1
 dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True)
 dataloader = DataLoader(dataset, batch_size=batch_size, shuffle=True, num_workers=num_workers, pin_memory=True)
